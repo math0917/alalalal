@@ -1,34 +1,34 @@
 import sys
-def permu(num, howmany, goal,val=1, count=0):
-    while(True):
-        val *= num
-        while(True):
-            if val % 10 == 0:
-                count += 1
-                val //= 10
-            else:
-                break
-        num = num - 1
-        if num == goal:
-            return val, count
-    
 
-def divide(val,aim,count):
-    while(True):
-        if aim == 1:
-            return count
-        if val % aim !=0 :
-            count -= 1
-            val *= 10
-        else:
-            val //= aim
-            aim -= 1
-    
+def find_five(num):
+    count = 0
+    compare = 5
+    while compare<=num:
+        count += num//compare
+        compare*=5
+    return count
+def find_two(num):
+    count = 0
+    compare = 2
+    while compare<=num:
+        count += num//compare
+        compare *= 2
+    return count
+
+
 
 n ,m  = map(int,sys.stdin.readline().split())
 if m == 0:
     print(0)
     sys.exit()
-val, zero_count = permu(n,min(n-m,m), n-min(n-m,m))
 
-print(divide(val, min(n-m, m), zero_count))
+top_five = find_five(n)
+top_two = find_two(n)
+
+bottom_left_five = find_five(n-m)
+bottom_left_two = find_two(n-m)
+
+bottom_right_five = find_five(m)
+bottom_right_two = find_two(m)
+
+print(min(top_five- bottom_left_five- bottom_right_five, top_two - bottom_left_two - bottom_right_two))
