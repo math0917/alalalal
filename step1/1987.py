@@ -1,11 +1,10 @@
 import sys
 import collections 
 
-def per(stack,arr,max):
-        this_turn = stack.pop()
-        this_row = this_turn[0][0]
-        this_col = this_turn[0][1]
-        
+def per(idx,arr,alpha,depth):
+        global result
+        this_row = idx[0]
+        this_col = idx[1]
         ptr = [[this_row-1, this_col], [this_row+1, this_col], [this_row, this_col-1], [this_row, this_col+1]]
         count=0
         for i in ptr:
@@ -13,41 +12,36 @@ def per(stack,arr,max):
             row = i[0]
             col = i[1]
             
-            if row >= n or row <= -1 or col >= m or col <= -1 :
-                continue
-            this_num = ord(arr[row][col])
-            if this_turn[1][this_num - 65] == False:
+            if row >= n or row <= -1 or col >= m or col <= -1 or alpha[arr[row][col]] == False:
                 continue
             else:
-                this_turn[1][this_num - 65] = False
+                alpha[arr[row][col]] = False
                
-                stack.append([(row,col),this_turn[1]])
+                idx[0] = row
+                idx[1] = col
 
-                max = per(stack,arr,max)
+                per(idx,arr,alpha,depth+1)
 
-                this_turn[1][this_num - 65] = True
+                alpha[arr[row][col]] = True
                 count+=1
             
         if not count:
-            ptr = this_turn[1].count(False)
-            if max < ptr:
-                max = ptr
+            
+            if result < depth:
+                result = depth
         
-        return max
+        
         
 n, m = map(int,sys.stdin.readline().split())
 
 arr = [list(map(str,sys.stdin.readline().strip())) for _ in range(n)]
-
-visit = set()
-
+for i in range(n):
+    for j in range(m):
+        arr[i][j] = ord(arr[i][j])- 65
 alpha = [True]*26
-alpha[ord(arr[0][0]) - ord('A')] = False
-stack = collections.deque([[(0,0), alpha]])
+alpha[arr[0][0]] = False
 
+result = 1
 
-result = per(stack,arr,0)
-
-print(result)            
-
-    
+per([0,0],arr,alpha,1)
+print(result)
