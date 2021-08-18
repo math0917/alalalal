@@ -1,45 +1,35 @@
 import sys
-import collections 
 
-def per(idx,depth):
-        global result
-        this_row = idx[0]
-        this_col = idx[1]
-        ptr = [[this_row-1, this_col], [this_row+1, this_col], [this_row, this_col-1], [this_row, this_col+1]]
-        count=0
-        for i in ptr:
-            
-            row = i[0]
-            col = i[1]
-            
-            if row >= n or row <= -1 or col >= m or col <= -1 or alpha[arr[row][col]] == False:
-                continue
-            else:
-                alpha[arr[row][col]] = 0
-               
-                idx[0] = row
-                idx[1] = col
 
-                per(idx,depth+1)
-
-                alpha[arr[row][col]] = 1
-                count+=1
+def per(idx,length):
+    global result
+    count = 0
+    for i in range(4): 
+        row = idx[0] + dx[i]
+        col = idx[1] + dy[i]
             
+        if 0<=row<=n-1 and 0<=col<=n-1 and not oi[arr[row][col]]:
+            oi[arr[row][col]]= 1
+            per([row,col],length+1)
+            oi[arr[row][col]]= 0
+            count += 1
         if not count:
+            result = max(result, length)
             
-            if result < depth:
-                result = depth
         
         
         
 n, m = map(int,sys.stdin.readline().split())
 
-arr = [list(map(lambda x : ord(x) - 65,sys.stdin.readline().strip())) for _ in range(n)]
+arr = [list(map(lambda x: ord(x)-65,sys.stdin.readline().strip())) for _ in range(n)]
 
-alpha = [1]*26
-alpha[arr[0][0]] = 
 
-result = 1
+result = 0
+dx = [-1,1,0,0]
+dy = [0,0,1,-1]
+oi = [0]*26
+oi[arr[0][0]] = 1
+
 
 per([0,0],1)
 print(result)
