@@ -7,15 +7,10 @@ n = int(sys.stdin.readline())
 
 arr = [list(map(int,sys.stdin.readline().strip())) for _ in range(n)]
 
-
-
 dp = [[n*n] * n for _ in range(n)]
-
 
 dx = [-1,0,1,0]
 dy = [0,1,0,-1]
-
-
 
 stack = collections.deque([[0,0,0]])
 
@@ -23,7 +18,6 @@ while(len(stack)):
     this_turn = stack.popleft()
     this_row = this_turn[0]
     this_col = this_turn[1]
-    
     for i in range(4):
         row = this_row + dx[i]
         col = this_col + dy[i]
