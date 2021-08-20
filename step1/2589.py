@@ -5,8 +5,6 @@ n, m = map(int,sys.stdin.readline().split())
 
 arr = [list(sys.stdin.readline().strip()) for _ in range(n)]
 
-
-
 dx = [-1,0,1,0]
 dy = [0,1,0,-1]
 real_max = 0
