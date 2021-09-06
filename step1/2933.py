@@ -27,42 +27,25 @@ to_do = list(map(int,sys.stdin.readline().split()))
 '''
 for i in range(len(to_do)):
     this_count = 0
+    this_turn_row = r-to_do[i]
     if i%2: #오른쪽 부터 x 찾아가는 상황
         for j in reversed(range(c)):
-            if arr[r - to_do[i]][j] == 'x':
-                arr[r - to_do[i]][j] = '.'
+            if arr[this_turn_row][j] == 'x':
+                arr[this_turn_row][j] = '.'
                 this_count+=1
                 break
     else:
         #왼쪽부터 x 찾아가는 상황
         for j in range(c):
-            if arr[r - to_do[i]][j] == 'x':
-                arr[r - to_do[i]][j] = '.'
+            if arr[this_turn_row][j] == 'x':
+                arr[this_turn_row][j] = '.'
                 this_count +=1
                 break
     if this_count:
-        cluster_visited = [[1]*c for _ in range(r)]
-        for y in range(c):
-            if arr[r-1][y] == 'x' and cluster_visited[r-1][y]:
-                cluster_visited[r-1][y] = 0
-                stack.append((r-1,y))
-                while stack:
-                    this_row,this_col = stack.pop()
-                    for t in range(4):
-                        row = this_row + dx[t]
-                        col = this_col + dy[t]
-                        if 0<= row <r and 0<= col < c and cluster_visited[row][col] and arr[row][col] == 'x':
-                            cluster_visited[row][col] = 0
-                            stack.append((row,col))
-        for x in range(r):
-            for y in range(c):
-                if arr[x][y] == 'x' and cluster_visited[x][y]:
+        visited = [[1]*c for _ in range(r)]
+        for j in range(this_turn_row):
+            for k in range(c):
+                if arr[j][k] == 'x' and visited[j][k]:
+                    visited[j][k] = 0
+                    stack.append((j,k))
                     
-        
-        
-    
-for i in range(r):
-    for j in range(c):
-        print(arr[i][j],end='')
-  
-    print('')
