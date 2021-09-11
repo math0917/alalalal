@@ -9,7 +9,6 @@ def check(left_idx,right_idx,flag):
         if i[left_idx] == i[right_idx]:
             flag = check(left_idx+1,right_idx-1,flag)
         else:
-            
             left_flag = check(left_idx,right_idx-1,flag+1)
             right_flag = check(left_idx+1,right_idx,flag+1)
             flag = min(left_flag, right_flag)
