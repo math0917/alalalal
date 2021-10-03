@@ -1,3 +1,4 @@
+#idx건드리는거 연구해야됨
 import sys
 
 import collections
