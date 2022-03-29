@@ -5,5 +5,4 @@
 all my codes are for baekjoon
 
 
-https://www.acmicpc.net/
-
+https://www.acmicpc.net/user/math0917
