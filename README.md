@@ -4,5 +4,5 @@
 
 all my codes are for baekjoon
 <div>
-<a href="http://solved.ac/math0917"><img src="http://mazassumnida.wtf/api/mini/generate_badge?boj=yb5464"/></a>
+<a href="http://solved.ac/math0917"><img src="http://mazassumnida.wtf/api/v2/mini/generate_badge?boj=yb5464"/></a>
 </div>
