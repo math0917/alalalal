@@ -1,7 +1,7 @@
 # [Platinum V] Strongly Connected Component - 2150 
 
 [문제 링크](https://www.acmicpc.net/problem/2150) 
-
+[블로그 링크](https://2021-11-21.tistory.com/46)
 ### 성능 요약
 
 메모리: 125632 KB, 시간: 352 ms
