@@ -26,8 +26,8 @@ public class Main {
         point = new Point[n + 1];
         for (int t = 1; t < n+1; t++) {
             st = new StringTokenizer(br.readLine());
-            double x = Double.parseDouble(st.nextToken());
-            double y = Double.parseDouble(st.nextToken());
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
             point[t] = new Point(x, y);
         }
         for (int t = 0; t < m; t++) {
@@ -77,16 +77,16 @@ public class Main {
         }
     }
     static class Point {
-        double x;
-        double y;
+        int x;
+        int y;
 
-        public Point(double x, double y) {
+        public Point(int x, int y) {
             this.x = x;
             this.y = y;
         }
 
         public double dist(Point point) {
-            return Math.sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y));
+            return Math.sqrt((double)(x - point.x) * (x - point.x) + (double)(y - point.y) * (y - point.y));
         }
     }
 
