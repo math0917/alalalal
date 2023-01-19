@@ -1,5 +1,4 @@
 
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.PriorityQueue;
@@ -57,7 +56,7 @@ public class Main {
 
 
 
-        System.out.printf(String.format("%.2f", result) + "\n");
+        System.out.printf("%.2f", result);
 
     }
 
