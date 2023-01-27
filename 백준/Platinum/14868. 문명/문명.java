@@ -3,9 +3,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static int n, k;
@@ -15,6 +13,7 @@ public class Main {
     static int[] dx = {-1, 0, 1, 0};
     static int[] dy = {0, 1, 0, -1};
     static int[][] length;
+    static Set<Integer> notYet;
     public static void main(String[] args) throws Exception{
         input();
         bfs();
@@ -41,11 +40,13 @@ public class Main {
                                 if (k == 1) {
                                     System.out.println(length[row][col]);
                                     return;
-                                }
+                                } 
                             } else {
                                 if (k == 1) {
                                     System.out.println(Math.max(length[row][col], length[thisTurnRow][thisTurnCol]));
                                     return;
+                                } else {
+                                    queue.add(new int[]{row, col, Math.max(length[row][col], length[thisTurnRow][thisTurnCol])});
                                 }
                             }
                         }
@@ -65,6 +66,7 @@ public class Main {
         parent = new int[k+1];
         queue = new ArrayDeque<>();
         length = new int[n][n];
+        notYet = new HashSet<>();
         int groundCount = 0;
         for (int i = 0; i < k; i++) {
             st = new StringTokenizer(br.readLine());
@@ -74,6 +76,7 @@ public class Main {
             map[thisRow][thisCol] = ++groundCount;
             length[thisRow][thisCol] = 0;
             queue.add(new int[]{thisRow, thisCol, 0});
+            notYet.add(i + 1);
         }
     }
 
