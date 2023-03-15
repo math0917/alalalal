@@ -20,7 +20,7 @@ public class Main {
             int idx = i + 1;
             int time = Integer.parseInt(st.nextToken());
             int cost = Integer.parseInt(st.nextToken());
-            try {
+            if(idx - 1+ time <= n) {
 //                day 2에 time으로 cost로 상담을 할 수 있으면
 //                day 2 + time - 1 까지 상담을
 //                day 1까지의 상담cost + cost로 가능하다.
@@ -28,10 +28,7 @@ public class Main {
 //
 
 
-            } catch (Exception e) {
-
-
-            }
+            } 
             dp[idx] = Math.max(dp[idx], dp[idx - 1]);
 //            System.out.println(i +" "+ time + " " + cost);
 //            System.out.println(Arrays.toString(dp));
