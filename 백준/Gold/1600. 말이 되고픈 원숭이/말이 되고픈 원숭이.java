@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
@@ -78,7 +77,8 @@ public class Main {
 
 
         }
-        System.out.println(Arrays.stream(dp[n-1][m-1]).min().getAsInt() == Integer.MAX_VALUE? -1 : Arrays.stream(dp[n-1][m-1]).min().getAsInt() );
+        int val = Arrays.stream(dp[n-1][m-1]).min().getAsInt();
+        System.out.println( val == Integer.MAX_VALUE ? -1 : val );
 
     }
 }
