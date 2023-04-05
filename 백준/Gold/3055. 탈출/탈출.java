@@ -1,81 +1,112 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.StringTokenizer;
-
-import static java.lang.System.in;
+import java.util.*;
 
 public class Main {
-    static int n, m;
+    static int R, C, answer;
+    static int[] S;
+    static List<int[]> wList = new ArrayList<>();
     static char[][] map;
-    static Queue<int[]> queue = new ArrayDeque<>();
+    static boolean[][] visited;
+    static int[] dr = {-1, 1, 0, 0};
+    static int[] dc = {0, 0, -1, 1};
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-    static Queue<int[]> dQueue = new ArrayDeque<>();
-    static int[][] visited;
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, 1, 0, -1};
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-        StringTokenizer st;
+        map = new char[R][C];
+        visited = new boolean[R][C];
 
-        st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-
-        map = new char[n][m];
-        visited = new int[n][m];
-        for (int i = 0; i < n; i++) {
-            String line = br.readLine();
-            for (int j = 0; j < m; j++) {
-                map[i][j] = line.charAt(j);
-                if (map[i][j] == '*') {
-                    queue.add(new int[]{i, j});
-                    visited[i][j] = 2;
-                } else if (map[i][j] == 'S') {
-                    dQueue.add(new int[]{i, j});
-                    visited[i][j] = 1;
+        for(int i = 0; i < R; i++) {
+            String str = br.readLine();
+            for(int j = 0; j < C; j++) {
+                map[i][j] = str.charAt(j);
+                if(map[i][j] == 'S') {
+                    S = new int[] {i, j};
+                    visited[i][j] = true;
+                }
+                else if(map[i][j] == '*') {
+                    wList.add(new int[] {i, j});
+                    visited[i][j] = true;
                 }
             }
         }
 
-        int count = 1;
-        while (dQueue.size() > 0) {
-            int queueSize = queue.size();
-            while (queueSize-- > 0) {
-                int[] thisTurn = queue.poll();
-                for (int k = 0; k < 4; k++) {
-                    int row = thisTurn[0] + dx[k];
-                    int col = thisTurn[1] + dy[k];
-                    if (0 <= row && row < n && 0 <= col && col < m && visited[row][col] <= 1 && map[row][col] == '.') {
-                        visited[row][col] = 2;
-                        queue.add(new int[]{row, col});
-                    }
-                }
-            }
+        move();
 
-            int dQueueSize = dQueue.size();
-            while (dQueueSize-- > 0) {
-                int[] thisTurn = dQueue.poll();
-                for (int k = 0; k < 4; k++) {
-                    int row = thisTurn[0] + dx[k];
-                    int col = thisTurn[1] + dy[k];
-                    if (0 <= row && row < n && 0 <= col && col < m && visited[row][col] == 0 ) {
-                        if (map[row][col] == '.') {
-                            visited[row][col] = 1;
-                            dQueue.add(new int[]{row, col});
-                        } else if (map[row][col] == 'D') {
-                            System.out.println(count);
-                            System.exit(0);
-                        }
-
-                    }
-                }
-            }
-            count++;
-        }
-        System.out.println("KAKTUS");
-
+        if(answer == -1) System.out.println("KAKTUS");
+        else System.out.println(answer);
     }
+
+    static void move() {
+        Queue<int[]> queueS = new ArrayDeque<>();
+        Queue<int[]> queueW = new ArrayDeque<>();
+        for(int i = 0; i < wList.size(); i++) {
+            queueW.offer(wList.get(i));
+            visited[wList.get(i)[0]][wList.get(i)[1]] = true;
+
+        }
+        queueS.offer(S);
+        visited[S[0]][S[1]] = true;
+
+        int time = 1;
+
+        while(!queueS.isEmpty()) {
+            int sizeS = queueS.size();
+            int sizeW = queueW.size();
+
+//            for(int i = 0; i < R; i++) {
+//                System.out.println(Arrays.toString(map[i]));
+//            }
+//            System.out.println();
+//
+//            for(int i = 0; i < R; i++) {
+//                System.out.println(Arrays.toString(visited[i]));
+//            }
+//            System.out.println();
+//
+
+            for(int i = 0; i < sizeW; i++) {
+                int[] tmp = queueW.poll();
+                for(int j = 0; j < 4; j++) {
+                    int nr = tmp[0] + dr[j];
+                    int nc = tmp[1] + dc[j];
+                    if (nr < 0 || nr >= R || nc < 0 || nc >= C) continue;
+                    if (map[nr][nc] == '.' || map[nr][nc] == 'S' ) {
+                        map[nr][nc] = '*';
+                        queueW.offer(new int[]{nr, nc});
+                    }
+                }
+            }
+            for(int i = 0; i < sizeS; i++) {
+                int[] tmp = queueS.poll();
+
+                for(int j = 0; j < 4; j++) {
+                    int nr = tmp[0] + dr[j];
+                    int nc = tmp[1] + dc[j];
+                    if(nr < 0 || nr >= R || nc < 0 || nc >= C) continue;
+                    if(!visited[nr][nc] && map[nr][nc] == '.') {
+                        visited[nr][nc] = true;
+                        queueS.offer(new int[]{nr, nc});
+                    } else if(map[nr][nc] == 'D') {
+                        answer = time;
+                        return;
+                    }
+                }
+            }
+
+
+            time++;
+        }
+
+        answer = -1;
+    }
+
+    
+
+
 }
